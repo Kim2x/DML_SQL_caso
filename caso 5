@@ -1,0 +1,84 @@
+-- Clientes
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    birth_date DATE NOT NULL,
+    address TEXT,
+    loyalty_status ENUM('Ativo', 'Inativo') DEFAULT 'Ativo'
+);
+
+-- Fornecedores
+CREATE TABLE suppliers (
+    supplier_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    contact VARCHAR(50),
+    email VARCHAR(100),
+    address TEXT
+);
+
+-- Produtos
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    category VARCHAR(50),
+    price DECIMAL(10,2) NOT NULL,
+    stock_quantity INT DEFAULT 0,
+    supplier_id INT,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
+);
+
+-- Vendas
+CREATE TABLE sales (
+    sale_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    sale_date DATE NOT NULL,
+    total_value DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Detalhes da Venda
+CREATE TABLE sale_details (
+    sale_detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    sale_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (sale_id) REFERENCES sales(sale_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- Pagamentos
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    sale_id INT NOT NULL,
+    payment_date DATE NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    status ENUM('Pago', 'Pendente') DEFAULT 'Pendente',
+    FOREIGN KEY (sale_id) REFERENCES sales(sale_id)
+);
+
+SELECT DISTINCT c.name AS customer_name, p.name AS product_name
+FROM customers c
+JOIN sales s ON c.customer_id = s.customer_id
+JOIN sale_details sd ON s.sale_id = sd.sale_id
+JOIN products p ON sd.product_id = p.product_id
+WHERE p.name = 'Celular';
+
+SELECT p.name AS product_name, p.stock_quantity, s.name AS supplier_name, s.contact
+FROM products p
+JOIN suppliers s ON p.supplier_id = s.supplier_id
+WHERE p.name = 'Computador';
+
+SELECT c.name AS customer_name, s.sale_id, s.total_value, p.payment_date, p.amount, p.status
+FROM sales s
+JOIN customers c ON s.customer_id = c.customer_id
+LEFT JOIN payments p ON s.sale_id = p.sale_id
+ORDER BY p.payment_date DESC;
+
+SELECT c.name AS customer_name, COUNT(s.sale_id) AS total_sales, SUM(s.total_value) AS total_value
+FROM sales s
+JOIN customers c ON s.customer_id = c.customer_id
+WHERE s.sale_date BETWEEN '2024-01-01' AND '2024-12-31'
+GROUP BY c.name
+ORDER BY total_value DESC;
