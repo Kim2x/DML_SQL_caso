@@ -1,0 +1,103 @@
+-- Alunos
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    birth_date DATE NOT NULL,
+    address TEXT
+);
+
+-- Instrutores
+CREATE TABLE instructors (
+    instructor_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    birth_date DATE NOT NULL,
+    specialty VARCHAR(50),
+    salary DECIMAL(10,2) NOT NULL
+);
+
+
+-- Modalidades
+CREATE TABLE activities (
+    activity_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    description TEXT,
+    monthly_fee DECIMAL(10,2) NOT NULL
+);
+
+
+-- Matrículas
+CREATE TABLE enrollments (
+    enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    activity_id INT NOT NULL,
+    enrollment_date DATE NOT NULL,
+    status ENUM('Ativo', 'Inativo') DEFAULT 'Ativo',
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (activity_id) REFERENCES activities(activity_id)
+);
+
+-- Planos de Treinamento
+CREATE TABLE training_plans (
+    plan_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    instructor_id INT NOT NULL,
+    description TEXT,
+    creation_date DATE NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
+);
+
+-- Aulas
+CREATE TABLE classes (
+    class_id INT AUTO_INCREMENT PRIMARY KEY,
+    activity_id INT NOT NULL,
+    instructor_id INT NOT NULL,
+    schedule DATETIME NOT NULL,
+    capacity INT DEFAULT 20,
+    FOREIGN KEY (activity_id) REFERENCES activities(activity_id),
+    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
+);
+
+-- Participações em Aulas
+CREATE TABLE class_participants (
+    class_participant_id INT AUTO_INCREMENT PRIMARY KEY,
+    class_id INT NOT NULL,
+    student_id INT NOT NULL,
+    FOREIGN KEY (class_id) REFERENCES classes(class_id),
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+);
+
+-- Pagamentos
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    payment_date DATE NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    status ENUM('Pago', 'Pendente') DEFAULT 'Pendente',
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+);
+
+SELECT s.name, a.name AS activity_name
+FROM students s
+JOIN enrollments e ON s.student_id = e.student_id
+JOIN activities a ON e.activity_id = a.activity_id
+WHERE a.name = 'Musculação';
+
+SELECT s.name AS student_name, t.description, i.name AS instructor_name
+FROM training_plans t
+JOIN students s ON t.student_id = s.student_id
+JOIN instructors i ON t.instructor_id = i.instructor_id;
+
+SELECT c.class_id, a.name AS activity_name, COUNT(cp.class_participant_id) AS participants
+FROM classes c
+JOIN activities a ON c.activity_id = a.activity_id
+LEFT JOIN class_participants cp ON c.class_id = cp.class_id
+GROUP BY c.class_id, a.name
+HAVING participants <= c.capacity;
+
+SELECT s.name, p.payment_date, p.amount, p.status
+FROM payments p
+JOIN students s ON p.student_id = s.student_id
+ORDER BY p.payment_date DESC;
