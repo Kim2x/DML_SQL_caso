@@ -1,0 +1,50 @@
+INSERT INTO passengers (passenger_id, name, cpf, phone, address)
+VALUES (1, 'João Silva', '12345678900', '+5511999999999', 'Rua A, São Paulo');
+
+INSERT INTO passengers (passenger_id, name, cpf, phone, address)
+VALUES (2, 'Maria Oliveira', '23456789001', '+5511988888888', 'Rua B, Rio de Janeiro');
+
+INSERT INTO passengers (passenger_id, name, cpf, phone, address)
+VALUES (3, 'Pedro Costa', '34567890123', '+5511977777777', 'Rua C, Curitiba');
+
+INSERT INTO passengers (passenger_id, name, cpf, phone, address)
+VALUES (4, 'Ana Souza', '45678901234', '+5511966666666', 'Rua D, Salvador');
+
+INSERT INTO passengers (passenger_id, name, cpf, phone, address)
+VALUES (5, 'Carlos Lima', '56789012345', '+5511955555555', 'Rua E, Porto Alegre');
+INSERT INTO airports (airport_code, name, location)
+VALUES ('GRU', 'Aeroporto Internacional de Guarulhos', 'São Paulo');
+
+INSERT INTO airports (airport_code, name, location)
+VALUES ('GIG', 'Aeroporto Internacional do Galeão', 'Rio de Janeiro');
+
+INSERT INTO airports (airport_code, name, location)
+VALUES ('BSB', 'Aeroporto Internacional de Brasília', 'Brasília');
+
+INSERT INTO airports (airport_code, name, location)
+VALUES ('SSA', 'Aeroporto Internacional de Salvador', 'Salvador');
+
+INSERT INTO airports (airport_code, name, location)
+VALUES ('POA', 'Aeroporto Internacional Salgado Filho', 'Porto Alegre');
+INSERT INTO flights (flight_id, departure_airport_code, arrival_airport_code, departure_time, arrival_time, aircraft_id)
+VALUES (1, 'GRU', 'GIG', '2024-11-16 08:00:00', '2024-11-16 09:30:00', 1);
+
+INSERT INTO flights (flight_id, departure_airport_code, arrival_airport_code, departure_time, arrival_time, aircraft_id)
+VALUES (2, 'GIG', 'SSA', '2024-11-16 10:00:00', '2024-11-16 12:00:00', 2);
+
+INSERT INTO flights (flight_id, departure_airport_code, arrival_airport_code, departure_time, arrival_time, aircraft_id)
+VALUES (3, 'SSA', 'BSB', '2024-11-16 13:00:00', '2024-11-16 15:00:00', 3);
+
+INSERT INTO flights (flight_id, departure_airport_code, arrival_airport_code, departure_time, arrival_time, aircraft_id)
+VALUES (4, 'BSB', 'POA', '2024-11-16 16:00:00', '2024-11-16 18:30:00', 4);
+
+INSERT INTO flights (flight_id, departure_airport_code, arrival_airport_code, departure_time, arrival_time, aircraft_id)
+VALUES (5, 'POA', 'GRU', '2024-11-16 20:00:00', '2024-11-16 22:00:00', 5);
+UPDATE passengers SET phone = '+5511944444444' WHERE passenger_id = 3;
+
+UPDATE passengers SET address = 'Rua Nova, Brasília' WHERE passenger_id = 4;
+UPDATE flights SET departure_time = '2024-11-17 07:00:00' WHERE flight_id = 1;
+
+UPDATE flights SET aircraft_id = 2 WHERE flight_id = 4;
+DELETE FROM passengers WHERE passenger_id = 5;
+DELETE FROM flights WHERE flight_id = 5;
