@@ -1,0 +1,26 @@
+INSERT INTO clients (client_id, cnpj, business_name, business_area, registration_date, contact_person)
+VALUES (1, '12345678000123', 'Empresa A', 'Tecnologia', '2024-01-01', 'João Silva');
+
+INSERT INTO clients (client_id, cnpj, business_name, business_area, registration_date, contact_person)
+VALUES (2, '23456789000134', 'Empresa B', 'Financeiro', '2024-02-15', 'Maria Oliveira');
+
+-- (Outros 3 registros similares)
+
+  INSERT INTO employees (employee_id, name, position, salary, admission_date, address_id)
+VALUES (1, 'Carlos Lima', 'Desenvolvedor', 8000.00, '2024-01-10', 1);
+
+INSERT INTO employees (employee_id, name, position, salary, admission_date, address_id)
+VALUES (2, 'Ana Souza', 'Analista', 7000.00, '2024-02-20', 2);
+
+-- (Outros 3 registros similares)
+
+  UPDATE clients SET business_area = 'Educação' WHERE client_id = 1;
+
+UPDATE clients SET contact_person = 'Roberto Fernandes' WHERE client_id = 2;
+
+UPDATE employees SET salary = 8500.00 WHERE employee_id = 1;
+
+UPDATE employees SET position = 'Gerente de Projetos' WHERE employee_id = 2;
+
+DELETE FROM clients WHERE client_id = 5;
+DELETE FROM employees WHERE employee_id = 3;
