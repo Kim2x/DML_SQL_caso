@@ -1,0 +1,36 @@
+INSERT INTO suppliers (supplier_id, company_name, address, country, contact_person, phone)
+VALUES (1, 'Global Supplies Inc.', '123 Industrial Park', 'USA', 'John Smith', '+123456789');
+
+INSERT INTO suppliers (supplier_id, company_name, address, country, contact_person, phone)
+VALUES (2, 'Asia Materials Co.', '456 Trade St.', 'China', 'Li Wei', '+86123456789');
+
+INSERT INTO suppliers (supplier_id, company_name, address, country, contact_person, phone)
+VALUES (3, 'EuroTech Supplies', '78 Industrial Lane', 'Germany', 'Hans Müller', '+49123456789');
+
+INSERT INTO suppliers (supplier_id, company_name, address, country, contact_person, phone)
+VALUES (4, 'South American Resources', '12 Supply Blvd', 'Brazil', 'Maria Silva', '+55123456789');
+
+INSERT INTO suppliers (supplier_id, company_name, address, country, contact_person, phone)
+VALUES (5, 'Africa Importers', '90 Market Ave', 'South Africa', 'Thabo Mkhize', '+27123456789');
+INSERT INTO products (product_id, product_name, description, specifications, unit_of_measurement, unit_price)
+VALUES (1, 'Steel Rod', 'High-quality steel rod', '10mm diameter', 'kg', 5.00);
+
+INSERT INTO products (product_id, product_name, description, specifications, unit_of_measurement, unit_price)
+VALUES (2, 'Aluminum Sheet', 'Lightweight aluminum sheet', '1mm thickness', 'sqm', 10.00);
+
+INSERT INTO products (product_id, product_name, description, specifications, unit_of_measurement, unit_price)
+VALUES (3, 'Copper Wire', 'Conductive copper wire', '0.5mm gauge', 'm', 2.50);
+
+INSERT INTO products (product_id, product_name, description, specifications, unit_of_measurement, unit_price)
+VALUES (4, 'Plastic Resin', 'Durable plastic resin', 'Polyethylene', 'kg', 1.50);
+
+INSERT INTO products (product_id, product_name, description, specifications, unit_of_measurement, unit_price)
+VALUES (5, 'Glass Panel', 'Tempered glass panel', '10mm thickness', 'sqm', 20.00);
+UPDATE suppliers SET phone = '+11234567890' WHERE supplier_id = 1;
+
+UPDATE suppliers SET contact_person = 'Ana Souza' WHERE supplier_id = 4;
+UPDATE products SET unit_price = 5.50 WHERE product_id = 1;
+
+UPDATE products SET description = 'Premium-grade aluminum sheet' WHERE product_id = 2;
+DELETE FROM suppliers WHERE supplier_id = 5;
+DELETE FROM products WHERE product_id = 5;
